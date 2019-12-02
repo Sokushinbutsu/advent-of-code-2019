@@ -18,13 +18,23 @@ const loadNumbers = () => {
 };
 
 const addNumbers = (numbers: number[]) => {
-  // For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
-  // For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
-  // For a mass of 1969, the fuel required is 654.
-  // For a mass of 100756, the fuel required is 33583.
+  // At first, a module of mass 1969 requires 654 fuel.
+  // Then, this fuel requires 216 more fuel (654 / 3 - 2).
+  // 216 then requires 70 more fuel, which requires 21 fuel, which requires 5 fuel, which requires no further fuel.
+  // So, the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.
+  // Math.floor(number / 3) - 2;
   let result = 0;
+  const recurse = (num: number) => {
+    if (Math.floor(num / 3) - 2 > 0) {
+      result += Math.floor(num / 3) - 2;
+      recurse(Math.floor(num / 3) - 2);
+    } else {
+      return;
+    }
+  };
+
   numbers.forEach(number => {
-    result += Math.floor(number / 3) - 2;
+    recurse(number);
   });
 
   return result;
