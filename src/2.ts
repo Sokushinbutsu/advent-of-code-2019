@@ -1,16 +1,13 @@
 const fs = require("fs");
-const parse = require("csv-parse");
 
 let csv = [];
-fs.readFile(`${__dirname}/data/2.csv`, "utf8", function(err, data) {
-  let dataString = data.split(",");
-  for (let i = 0; i < dataString.length; i++) {
-    csv.push(parseInt(dataString[i]));
-  }
+let data = fs.readFileSync(`${__dirname}/data/2.csv`, "utf8");
+let dataString = data.split(",");
+for (let i = 0; i < dataString.length; i++) {
+  csv.push(parseInt(dataString[i]));
+}
 
-  csv[1] = 12;
-  csv[2] = 2;
-
+const compute = csv => {
   for (let i = 0; i < csv.length; i += 4) {
     if (i === 99) {
       break;
@@ -30,6 +27,18 @@ fs.readFile(`${__dirname}/data/2.csv`, "utf8", function(err, data) {
       csv[destination] = sigma;
     }
   }
+  if (csv[0] === 19690720) {
+    console.log(csv[1]);
+    console.log(csv[2]);
+    console.log(100 * csv[1] + csv[2]);
+  }
+};
 
-  console.log(csv);
-});
+for (let i = 0; i < 99; i++) {
+  for (let j = 0; j < 99; j++) {
+    let clone = [...csv];
+    clone[1] = i;
+    clone[2] = j;
+    compute(clone);
+  }
+}
