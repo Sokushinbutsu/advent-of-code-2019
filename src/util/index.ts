@@ -12,5 +12,5 @@ export function getCsv(day: string) {
 
   const output = parse(input, {});
 
-  return output.flat();
+  return output;
 }
